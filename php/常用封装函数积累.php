@@ -124,3 +124,20 @@ function object2array($object) {
         $array = $object;  
     }  return $array;
 }
+/**
+ * [datason 递归获取子分类信息]
+ * @param  [type] $data [description]
+ * @param  [type] $id   [description]
+ * @return [type]       [description]
+ */
+function datason($data, $id)
+{
+    $arr = array();
+    foreach ($data as $key => $value) {
+        if ($value['parent_take_id'] == $id) {
+            $value['son_data'] = datason($data, $value['take_id']);
+            $arr[] = $value;
+        }
+    }
+    return $arr;
+}
