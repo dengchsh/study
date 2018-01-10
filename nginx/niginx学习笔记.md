@@ -7,6 +7,10 @@ http://nginx.org/download/nginx-1.4.2.tar.gz
     yum -y install gcc gcc-c++ autoconf automake make
 安装准备: nginx依赖于pcre库,要先安装pcre
 
+
+
+
+
     yum install pcre pcre-devel
      cd /usr/local/src/
      wget http://nginx.org/download/nginx-1.4.2.tar.gz
@@ -15,12 +19,24 @@ http://nginx.org/download/nginx-1.4.2.tar.gz
     ./configure --prefix=/usr/local/nginx
     make && make install
 
+
+
+the HTTP gzip module requires the zlib library
+yum install -y zlib-deve
+- 
+
+
+
 cd /ulsr/local/nginx, 看到如下4个目录
-./
- ....conf 配置文件  
- ... html 网页文件
- ...logs  日志文件 
+./ 
+ ....conf 配置文件     
+ ... html 网页文件    
+ ...logs  日志文件    
  ...sbin  主要二进制程序   
+
+
+
+    
 
 **如果80端口被站口  启动不了  把占用80端口的软件或服务关闭即可.**
 
@@ -177,6 +193,16 @@ nginx 加php
 2: 把根目录定位到 html,  
 3: 把请求上下文转交给9000端口PHP进程,   
 4: 并告诉PHP进程,当前的脚本是 $document_root$fastcgi_scriptname    
+
+
+注意
+
+"Primary script unknown" while reading response header from upstream, client: 192.168.29.1, server: localhost, request: "GET /index.php HTTP/1.1"
+解决：
+fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+
+#fastcgi_param  SCRIPT_FILENAME  /scripts$fastcgi_script_name;
+
 
 ### 压缩 ###
 
