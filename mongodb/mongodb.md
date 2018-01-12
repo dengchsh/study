@@ -140,3 +140,67 @@ Sharding options:
 
 mongod --repair
 
+
+
+
+
+复制集
+
+1:启动3个实例,且声明实例属于某复制集
+./bin/mongod --port 27017 --dbpath /data/r0 --smallfiles --replSet rsa --fork --logpath /var/log/mongo17.log
+./bin/mongod --port 27018 --dbpath /data/r1 --smallfiles --replSet rsa --fork --logpath /var/log/mongo18.log
+./bin/mongod --port 27019 --dbpath /data/r2 --smallfiles --replSet rsa --fork --logpath /var/log/mongo19.log
+
+2:配置
+rsconf = {
+    _id:'rsa',
+    members:
+    [
+        {_id:0,
+        host:'192.168.1.201:27017'
+        }
+    ]
+}
+
+
+3: 根据配置做初始化
+	rs.initiate(rsconf);
+
+
+4: 添加节点
+	rs.add('192.168.0.108:27018');
+	rs.add('192.168.0.108:27019');
+
+
+5:查看状态
+rs.status();
+
+
+
+6:删除节点
+rs.remove('192.168.1.201:27019');
+
+7:主节点插入数据
+>use test
+>db.user.insert({uid:1,name:'lily'});
+
+8:连接secondary查询同步情况
+./bin/mongo --port 27019
+>use test
+>show tables
+
+
+
+
+mongodb3.4版本以后需要对config server创建副本集
+
+	pidfilepath = /var/run/mongodb/configsrv.pid
+	dbpath = /data/mongodb/config/data
+	logpath = /data/mongodb/config/log/congigsrv.log
+	logappend = true
+	bind_ip = 0.0.0.0  # 绑定你的监听ip
+	port = 21000
+	fork = true
+	configsvr = true #declare this is a config db of a cluster;
+	replSet=configs #副本集名称
+	maxConns=20000 #设置最大连接数
