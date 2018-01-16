@@ -141,3 +141,39 @@ function datason($data, $id)
     }
     return $arr;
 }
+/**
+ * 采集入库清新数据
+ */
+
+function clearstring($afterscontent){
+    $afterscontent = trim(preg_replace('/<!--.*?-->/isu', "", $afterscontent));
+    $afterscontent = trim(preg_replace('/style=[\'|"].*?[\'|"]/isu', "", $afterscontent));
+    $afterscontent = trim(preg_replace('/alt=[\'|"].*?[\'|"]/', "", $afterscontent));
+    $afterscontent = trim(preg_replace('/title=[\'|"].*?[\'|"]/', "", $afterscontent));
+    $afterscontent = trim(preg_replace('/id=[\'|"].*?[\'|"]/', "", $afterscontent));
+    $afterscontent = trim(preg_replace('/class=[\'|"].*?[\'|"]/', "", $afterscontent));
+    $afterscontent = trim(preg_replace('/  /', " ", $afterscontent));
+    $afterscontent = trim(preg_replace('/<div\s*?><\/div>/is', "", $afterscontent));
+    $afterscontent = trim(preg_replace('/<span\s*?><\/span>/is', "", $afterscontent));
+    $afterscontent = trim(preg_replace('/<script.*?>(.*?)<\/script>/is', "", $afterscontent));
+    $afterscontent = trim(preg_replace('/<link.*?>/is', "", $afterscontent));
+    $afterscontent = trim(preg_replace('/<object.*?>.*?<\/object>/is', "", $afterscontent));
+    $afterscontent = trim(preg_replace('/<style.*?>.*?<\/style>/is', "", $afterscontent));
+    $afterscontent = trim(preg_replace('/<p\s+>/is', "<p>", $afterscontent));
+    $afterscontent = trim(preg_replace('/<div\s+>/is', "<div>", $afterscontent));
+    $afterscontent = trim(preg_replace('/<span.*?>/is', "<span>", $afterscontent));
+    $afterscontent = trim(preg_replace('/<p.*?>/is', "<p>", $afterscontent));
+    $afterscontent = trim(preg_replace('/<div.*?>/is', "<div>", $afterscontent));
+    
+    $afterscontent = str_replace(array("\r\n", "\r", "\n"), "", $afterscontent);
+
+    $str_preg = '/<a.*?>(.*?)<\/a>/is';
+    $afterscontent = preg_replace($str_preg, "$1",$afterscontent);
+    $str_preg = '/<a.*?>(.*?)<\/a>/is';
+    $afterscontent = preg_replace($str_preg, "$1",$afterscontent);
+
+    $afterscontent = trim(preg_replace('/(<img.*?)<div>.*?热点栏目.*?<\/div>/is', "$1", $afterscontent));
+    $afterscontent = trim(preg_replace('/客户端/isu', "", $afterscontent));
+    $afterscontent = trim(preg_replace('/<p>责任编辑.*?<\/p>/isu', "", $afterscontent));
+    return $afterscontent;
+}
