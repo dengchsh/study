@@ -1,6 +1,10 @@
 ## 安装 ##
-下载安装     
+- 下载安装     
 	http://www.ffmpeg.org/releases/ffmpeg-3.4.1.tar.bz2
+- 解压
+
+- 
+
 
 
 yasm时，就会报上面错误。
@@ -12,6 +16,14 @@ yasm时，就会报上面错误。
 > 	4）执行配置： ./configure
 > 	5）编译：make
 > 	6）安装：make install
+
+
+
+
+
+
+
+
 
 简单案例
 http://blog.csdn.net/kingboyworld/article/details/52469765
@@ -25,3 +37,11 @@ $com = "/usr/local/bin/ffmpeg -ss 00:00:10  -i /data/1.mp4  /data/dcs/sampledcs1
 $res = exec($com,$out);
 
 
+
+$ff_frame = $movie->getFrame(1);
+$gd_image = $ff_frame->toGDImage();
+
+
+// $img="./test.jpg";
+// imagejpeg($gd_image, $img);
+// imagedestroy($gd_image);
