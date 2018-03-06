@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<select name="" id="">
+
+    <option value="male">男</option>
+    <option value="female">女</option>
+</select>
+
+<div id="content">内</div>
+<div id="ad">广</div>
+<div id="stu">学</div>
+</body>
+<script>
+    var sel = document.getElementsByTagName('select')[0];
+    sel.observers = {};
+    sel.attach = function (key, obj) {
+        sel.observers[key] = obj;
+
+    }
+    sel.detach = function (key) {
+        delete observers[key]
+    }
+    sel.onchange = sel.notify = function () {
+        for(var key in this.observers){
+            this.observers[key].update(this);
+        }
+    }
+    var content = document.getElementById('content');
+    var ad = document.getElementById('ad');
+    var stu = document.getElementById('stu');
+    content.update = function (observer) {
+        if (observer.value =='male'){
+            this.style.backgroundColor = 'gray';
+        } else if(observer.value =='female'){
+            this.style.backgroundColor = 'pink';
+        }
+    }
+    ad.update = function (observer) {
+        if (observer.value =='male'){
+            this.innerHTML = '汽车';
+        } else if(observer.value =='female'){
+            this.innerHTML = '减肥';;
+        }
+    }
+
+    stu.update = function (observer) {
+        if (observer.value =='male'){
+            this.innerHTML = '草菇';
+        } else if(observer.value =='female'){
+            this.innerHTML = '美容';;
+        }
+    }
+    sel.attach('content',content);
+    sel.attach('ad',ad);
+    sel.attach('stu',stu);
+    sel.attach('stu',stu);
+
+
+
+
+
+
+
+
+</script>
+
+</html>
