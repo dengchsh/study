@@ -1,0 +1,80 @@
+
+wget http://ftp.gnu.org/gnu/glibc/glibc-2.15.tar.gz  
+   
+wget http://ftp.gnu.org/gnu/glibc/glibc-ports-2.15.tar.gz  
+   
+tar -xvf  glibc-2.15.tar.gz  
+   
+tar -xvf  glibc-ports-2.15.tar.gz  
+   
+mv glibc-ports-2.15 glibc-2.15/ports  
+   
+mkdir glibc-build-2.15   
+   
+   
+cd glibc-build-2.15  
+   
+   重点
+../glibc-2.15/configure  --prefix=/usr --disable-profile --enable-add-ons --with-headers=/usr/include --with-binutils=/usr/bin  
+   
+   
+make  
+make install  
+
+
+
+sphinx php扩展安装
+想玩下sphinx，感觉安装也挺纠结的，废话就不多说了^-^，安装步骤如下：
+
+1：到http://sphinxsearch.com 下载sphinx最新的源码包（以下称sphinx），还有到http://pecl.php.net/package/sphinx 下载php的扩展客户端（以下称phpsphinx,鄙人什么都是下载最新的^-^）;
+
+2：上传到Linux解压（tar -zxf filename）,如果一上来就安装phpsphinx,就会报错：configure: error: Cannot find libsphinxclient headers（(/ □ \)，鄙人就是这样，卧槽），所以要先安装libsphinxclient喔，cd sphinx/api/libsphinxclient，然后执行./configure，编译安装 make && make install；
+
+3：好了，该安装phpsphinx了,cd phpsphinx，是不是发现什么里面没几个文件^-^，这个要用phpize命令安装php扩展，如果没有这个命令，就重新安装php开发包（yum install -y php-devel，貌似这个我在安装swoole已经说过，如果执行phpize过程中有出错，请到这篇文章中看看http://www.lngzone.com/article/detail/9）,执行phpize,然后执行./configure，之后编译安装 make && make install（记得在php.ini下加上那么一行：extension=sphinx.so ^-^）,重启apache（service httpd restart）,打开phpinfo,是不是有sphinx扩展了（喔耶！）;
+
+4：安装sphinx，还是一样的鸟道理，./configure --prefix=/usr/local/sphinx --with-mysql=/usr/local/mysql（一般安装第三方软件都是放在这个目录下，目录如其名：usr=>unix software resoure），make && make install。
+
+^-^，完了，是不是感觉挺容易的，鄙人在安装时，就忘了安装libsphinxclient，然后就在那里纠结，蛋痛死了
+
+
+
+
+CentOS6下Sphinx2.1.9编译错误undefined reference to 'libiconv'
+原创 2014年08月06日 01:31:45 标签：sphinx /makefile /libiconv 3359
+CentOS6下面编译Sphinx2.1.9报错：
+
+/root/sphinx-2.1.9-release/src/sphinx.cpp:26852: undefined reference to `libiconv_open'
+/root/sphinx-2.1.9-release/src/sphinx.cpp:26870: undefined reference to `libiconv'
+/root/sphinx-2.1.9-release/src/sphinx.cpp:26876: undefined reference to `libiconv_close'
+
+
+
+原因是g++没有添加 -libiconv选项
+
+cd sphinx-2.1.9-release
+
+vi src/MakeFile
+
+把LIBS = -lm -lz -lexpat  -L/usr/local/lib -lrt  -lpthread
+改成
+LIBS = -lm -lz -lexpat  -L/usr/local/lib -lrt  -lpthread   -liconv
+
+即可。
+
+
+在编译的过程 直接修改   
+配置过程中是被覆盖的 
+
+这个我很确认添加了      -liconv   编译 然后来看 就不见了
+0:05:13
+火神 2018/3/14 0:05:13
+改完直接make
+
+火神 2018/3/14 0:05:45
+在 configure 前  我很确认  添加   
+
+火神 2018/3/14 0:05:48
+怎么就不见了 ？
+
+火神 2018/3/14 0:06:09
+非常确认
