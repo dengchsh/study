@@ -1,4 +1,5 @@
 <?php
+// https://www.cnblogs.com/lz2017/p/8046816.html
     function des_ecb_encrypt($data, $key){
         return openssl_encrypt ($data, 'des-ecb', $key);
     }
