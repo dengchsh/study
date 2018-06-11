@@ -1,0 +1,5 @@
+            $encode = mb_detect_encoding($res_string, array("ASCII", 'UTF-8', 'GB2312', "GBK", 'BIG5'));
+            $res_string = mb_convert_encoding($res_string, "UTF-8", $encode);
+            
+            
+            转码
