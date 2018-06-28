@@ -1,0 +1,16 @@
+例如，查找当前目录下的所有 version.ini文件，并按时间排序，运行命令：
+
+复制代码 代码示例: 
+find ./ -name version.ini |xargs ls -lta 
+查找当前目录下的 .metadata 文件夹，按时间顺序排序，并且将文件夹下面的文件列出，运行命令：
+
+复制代码 代码示例: 
+find ./ -name .metadata |xargs ls -lt 
+列出所有文件，运行命令：
+
+复制代码 代码示例: 
+find ./ -name .metadata |xargs ls -lta 
+注解： 
+ls 按时间排序显示指定条数 
+ll -t |head -n 10 
+用这个命令查看最新创建的文件，还是比较有用的。
